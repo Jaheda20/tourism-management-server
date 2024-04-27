@@ -29,7 +29,9 @@ async function run() {
     await client.connect();
 
     const userCollection = client.db("userDB").collection("user");
+    const spotCollection = client.db("spotDB").collection("spot")
 
+    // user related API
     app.get('/user', async(req, res) =>{
         const cursor = userCollection.find();
         const users = await cursor.toArray();
@@ -40,6 +42,15 @@ async function run() {
         const user = req.body;
         console.log(user);
         const result = await userCollection.insertOne(user)
+        res.send(result)
+    })
+
+    // products related API
+
+    app.post('/addSpots', async(req, res) => {
+        const spot = req.body;
+        console.log(spot)
+        const result = await spotCollection.insertOne(spot)
         res.send(result)
     })
 
