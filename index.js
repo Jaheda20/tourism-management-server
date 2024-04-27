@@ -47,12 +47,20 @@ async function run() {
 
     // products related API
 
+    app.get('/addSpots', async(req, res) =>{
+        const cursor = spotCollection.find();
+        const spots = await cursor.toArray();
+        res.send(spots);
+    })
+    
     app.post('/addSpots', async(req, res) => {
         const spot = req.body;
         console.log(spot)
         const result = await spotCollection.insertOne(spot)
         res.send(result)
     })
+
+
 
     // Send a ping to confirm a successful connection
     await client.db("admin").command({ ping: 1 });
