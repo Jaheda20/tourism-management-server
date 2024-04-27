@@ -11,10 +11,6 @@ app.use(cors());
 // jahedasultana20
 // bn0hKfey7l4Jtbs4
 
-console.log(process.env.DB_USER, process.env.DB_PASS)
-
-
-// const uri = "mongodb+srv://jahedasultana20:bn0hKfey7l4Jtbs4@cluster0.al6znur.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
 
 const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@cluster0.al6znur.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0`;
 
@@ -31,12 +27,22 @@ async function run() {
   try {
     // Connect the client to the server	(optional starting in v4.7)
     await client.connect();
+
+    const userCollection = client.db("userDB").collection("user");
+
+    app.post('/user', async(req, res) => {
+        const user = req.body;
+        console.log(user);
+        const result = await userCollection.insertOne(user)
+        res.send(result)
+    })
+
     // Send a ping to confirm a successful connection
     await client.db("admin").command({ ping: 1 });
     console.log("Pinged your deployment. You successfully connected to MongoDB!");
   } finally {
     // Ensures that the client will close when you finish/error
-    await client.close();
+    // await client.close();
   }
 }
 run().catch(console.dir);
