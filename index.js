@@ -97,12 +97,13 @@ async function run() {
         res.send(result)
     })
 
-    // app.delete('/myList/:email/:id', async(req, res) =>{
-    //     const id = req.params.id;
-    //     const query = {_id: new ObjectId(id)}
-    //     const result = await spotCollection.deleteOne(query)
-    //     res.send(result)
-    // })
+    app.delete('/delete/:id', async(req, res) =>{
+        const id = req.params.id;
+        console.log(id)
+        const query = {_id: new ObjectId(id)}
+        const result = await spotCollection.deleteOne(query)
+        res.send(result)
+    })
 
 
 
