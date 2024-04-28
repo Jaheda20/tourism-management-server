@@ -74,6 +74,36 @@ async function run() {
         res.send(mySpots) 
     })
 
+    app.put('/updateSpot/:id', async(req, res) =>{
+        const id = req.params.id;
+        console.log(id)
+        const filter = {_id: new ObjectId(id) }
+        const options = { upsert: true};
+        const updatedSpot = req.body;
+        const spot = {
+            $set: {
+                photo: updatedSpot.photo,
+                spotName: updatedSpot.spotName,
+                country: updatedSpot.country,
+                location: updatedSpot.location,
+                season: updatedSpot.season,
+                duration: updatedSpot.duration,
+                visitors: updatedSpot.visitors,
+                cost: updatedSpot.cost,
+                description: updatedSpot.description,
+            }
+        }
+        const result = await spotCollection.updateOne(filter, spot, options)
+        res.send(result)
+    })
+
+    // app.delete('/myList/:email/:id', async(req, res) =>{
+    //     const id = req.params.id;
+    //     const query = {_id: new ObjectId(id)}
+    //     const result = await spotCollection.deleteOne(query)
+    //     res.send(result)
+    // })
+
 
 
     // Send a ping to confirm a successful connection
