@@ -8,9 +8,6 @@ const port = process.env.PORT || 5000;
 app.use(express.json());
 app.use(cors());
 
-// jahedasultana20
-// bn0hKfey7l4Jtbs4
-
 
 const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@cluster0.al6znur.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0`;
 
@@ -29,7 +26,8 @@ async function run() {
     await client.connect();
 
     const userCollection = client.db("userDB").collection("user");
-    const spotCollection = client.db("spotDB").collection("spot")
+    const spotCollection = client.db("spotDB").collection("spot");
+    const countryCollection = client.db("countryDB").collection("country")
 
     // user related API
     app.get('/user', async(req, res) =>{
@@ -105,6 +103,12 @@ async function run() {
         res.send(result)
     })
 
+    // country api
+    app.get('/country', async(req, res) =>{
+        const cursor = countryCollection.find();
+        const countries = await cursor.toArray();
+        res.send(countries)
+    })
 
 
     // Send a ping to confirm a successful connection
